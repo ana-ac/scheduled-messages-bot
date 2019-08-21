@@ -7,6 +7,12 @@ on a certain date or periodically through some instant messaging application suc
 * get_scheduled_messages - get scheduled messages that have not yet been sent  
 * get_history - obtain the history of sent messages  
 
+### keywords
+telegram
+bot
+nodejs
+node-telegram-bot-api
+
 ### License
 MIT License (MIT)  
-Copyright © 2019 Ana Arriaga Coll  
+Copyright © 2019 Ana Arriaga Coll
