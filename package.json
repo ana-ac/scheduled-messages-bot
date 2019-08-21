@@ -1,0 +1,24 @@
+{
+  "name": "scheduled-messages-bot",
+  "version": "1.0.0",
+  "description": "A telegram bot to handle the scheduled messages",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ana-ac/scheduled-messages-bot.git"
+  },
+  "keywords": [
+    "nodejs",
+    "telegram",
+    "telebot"
+  ],
+  "author": "Ana Arriaga Coll",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ana-ac/scheduled-messages-bot/issues"
+  },
+  "homepage": "https://github.com/ana-ac/scheduled-messages-bot#readme"
+}
