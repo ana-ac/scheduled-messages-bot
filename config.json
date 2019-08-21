@@ -1,0 +1,7 @@
+{
+    "commands" : [
+        "schedule_message",
+        "get_scheduled_messages",
+        "get_history"
+    ]
+}
