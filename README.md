@@ -8,10 +8,13 @@ on a certain date or periodically through some instant messaging application suc
 * get_history - obtain the history of sent messages  
 
 ### keywords
-telegram
-bot
-nodejs
-node-telegram-bot-api
+
+```
+telegram  
+bot  
+nodejs  
+node-telegram-bot-api  
+```
 
 ### License
 MIT License (MIT)  
