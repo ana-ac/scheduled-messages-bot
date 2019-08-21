@@ -5,7 +5,12 @@ on a certain date or periodically through some instant messaging application suc
 **commands:**
 * schedule_message - to schedule a message  
 * get_scheduled_messages - get scheduled messages that have not yet been sent  
-* get_history - obtain the history of sent messages  
+* get_history - obtain the history of sent messages 
+
+### Install
+```
+npm i scheduled-messages-bot
+```
 
 ### keywords
 
