@@ -14,7 +14,7 @@
     "nodejs",
     "telegram",
     "bot",
-    "node-telegram-bot-api"
+    "telegraf"
   ],
   "author": "Ana Arriaga Coll",
   "license": "MIT",
@@ -24,7 +24,7 @@
   "homepage": "https://github.com/ana-ac/scheduled-messages-bot#readme",
   "dependencies": {
     "dotenv-safe": "^8.1.0",
-    "node-telegram-bot-api": "^0.30.0"
+    "telegraf": "^3.32.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

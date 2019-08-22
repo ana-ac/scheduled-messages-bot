@@ -4,4 +4,4 @@
 const Bot = require('./src/bot');
 
 // main
-new Bot();
+new Bot().launch();

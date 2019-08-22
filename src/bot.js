@@ -1,23 +1,42 @@
-const {token} = require('./config/config');
-const {available_commands} = require('./config/config');
-const TelegramBot = require('node-telegram-bot-api');
+const Telegraf = require('telegraf');
+const config = require('./config/config');
+const helpers = require('./helpers/utils');
 
 class Bot {
 
     constructor() {
-        this.bot = new TelegramBot(token, {polling: true});
-        this.bindEvents();
+        this.bot = new Telegraf(config.token)
+        this.bindEvents()
+    }
+
+    launch() {
+        this.bot.launch()
     }
 
     bindEvents() {
-        this.bot.on('message', (msg) => {
-            const chat_id = msg.chat.id;
-            this.bot.sendMessage(chat_id, 'Received your message');
-        });
-        available_commands.forEach(command => {
-            console.log(command);
+        this.bot.start((ctx) => ctx.reply('Welcome! :)'))
+        config.available_commands.forEach(command => {
+            this.bot.command(command, (ctx) => this.handleCommand(ctx, command))
         });
     }
+
+    handleCommand(ctx, command) {
+        const handler = `handle${helpers.capitalize(helpers.snakeCaseToCamelCase(command))}`
+        this[handler](ctx)
+    }
+
+    handleScheduleMessage(ctx) {
+        ctx.reply(`ScheduleMessage`)
+    }
+
+    handleGetScheduledMessages(ctx) {
+        ctx.reply(`GetScheduledMessages`)
+    }
+
+    handleGetHistory(ctx) {
+        ctx.reply(`GetHistory`)
+    }
+
 }
 
 module.exports = Bot;
