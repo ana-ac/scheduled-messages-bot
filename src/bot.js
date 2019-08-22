@@ -6,10 +6,10 @@ class Bot {
 
     constructor() {
         this.bot = new TelegramBot(token, {polling: true});
-        this.handleEvents();
+        this.bindEvents();
     }
 
-    handleEvents() {
+    bindEvents() {
         this.bot.on('message', (msg) => {
             const chat_id = msg.chat.id;
             this.bot.sendMessage(chat_id, 'Received your message');
