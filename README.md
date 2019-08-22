@@ -24,7 +24,7 @@ on a certain date or periodically through some instant messaging application suc
 telegram  
 bot  
 nodejs  
-node-telegram-bot-api  
+telegraf
 ```
 
 ### License
