@@ -12,10 +12,11 @@ on a certain date or periodically through some instant messaging application suc
 * get_scheduled_messages - get scheduled messages that have not yet been sent  
 * get_history - obtain the history of sent messages 
 
-### Install
-```
-npm i scheduled-messages-bot
-```
+### Installation and local launch
+
+1. Clone the repo: `git clone git@github.com:ana-ac/scheduled-messages-bot.git`  
+3. Create `.env` with the environment variables listed in the `.env.example`  
+4. Run `npm install` in the root folder  
 
 ### keywords
 
