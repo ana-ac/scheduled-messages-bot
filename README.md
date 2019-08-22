@@ -27,6 +27,10 @@ nodejs
 telegraf
 ```
 
+### Related repositories  
+* https://github.com/ana-ac/scheduled-messages-api  
+* https://github.com/ana-ac/scheduled-messages-cron  
+
 ### License
 MIT License (MIT)  
 Copyright © 2019 Ana Arriaga Coll
