@@ -24,7 +24,8 @@
   "homepage": "https://github.com/ana-ac/scheduled-messages-bot#readme",
   "dependencies": {
     "dotenv-safe": "^8.1.0",
-    "telegraf": "^3.32.0"
+    "telegraf": "^3.32.0",
+    "telegraf-keyboard": "^1.1.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

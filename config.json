@@ -1,7 +1,23 @@
 {
+    "botname" : "schedulito",
     "commands" : [
         "add_schedule_message",
         "get_scheduled_messages",
         "get_history"
+    ],
+    "reply_messages" : [
+        {
+            "id" : "start",
+            "message" : "Welcome! :)"
+        },
+        {
+            "id" : "help",
+            "message" : "Hi! I'm BOT_NAME, what can I do for you?",
+            "replacers" : ["BOT_NAME"]
+        },
+        {
+            "id" : "mention",
+            "message" : "TELL ME"
+        }
     ]
 }
