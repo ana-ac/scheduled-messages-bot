@@ -1,12 +1,21 @@
-const Telegraf = require('telegraf')
-//const Keyboard = require('telegraf-keyboard')
+// requirements
 const config = require('./config/config')
 const helpers = require('./helpers/utils')
+
+const Telegraf = require('telegraf')
+const Telegram = require('telegraf/telegram')
+const Keyboard = require('telegraf-keyboard')
 
 class Bot {
 
     constructor() {
         this.bot = new Telegraf(config.token)
+        this.telegram = new Telegram(config.token)
+        this.keyboard_options = {
+            inline: true,
+            newline: true,
+            duplicates: true,
+        }
         this.loadConfig()
         this.bindEvents()
     }
@@ -18,6 +27,7 @@ class Bot {
     loadConfig() {
         this.bot_name = config.bot_name
         this.available_commands = config.available_commands
+        this.buttons = config.buttons
         this.reply_messages = this.processParameterConfig('reply_messages')
     }
 
@@ -32,12 +42,12 @@ class Bot {
         let _this = this;
         let processReplacers = function(info) {
             if (typeof info.replacers !== 'undefined') {
-                info.message = info.replacers.map(key => {
-                    if (info.message.indexOf(key) !== -1) {
-                        return info.message.replace(key, _this[key.toLowerCase()]);
+                info.replacers.map(key => {
+                    if ((info.message.indexOf(key) !== -1) && (typeof _this[key.toLowerCase()] !== 'undefined' || info.empty_replacer)) {
+                        let value = typeof _this[key.toLowerCase()] !== 'undefined' ? _this[key.toLowerCase()] : '';
+                        info.message = info.message.replace(key, value);
                     }
                 });
-                info.message = info.message[0];
             }
             return info;
         }
@@ -54,7 +64,10 @@ class Bot {
         this.bot.mention(this.bot_name, (ctx) => ctx.reply(this.reply_messages.mention))
         config.available_commands.forEach(command => {
             this.bot.command(command, (ctx) => this.handleCommand(ctx, command))
-        });
+        })
+        this.bot.on('callback_query', (ctx) => {
+            this.telegram.answerCbQuery(ctx.callbackQuery.id, "Your scheduled message has been saved", true);
+        })
     }
 
     handleCommand(ctx, command) {
@@ -63,7 +76,12 @@ class Bot {
     }
 
     handleActionAddScheduleMessage(ctx) {
-        ctx.reply(`AddScheduleMessage`)
+        const keyboard = new Keyboard(this.keyboard_options)
+        keyboard.add(...this.buttons.add_schedule_message)
+        ctx.reply(
+            this.reply_messages.add_message_initial,
+            keyboard.draw()
+        )
     }
 
     handleActionGetScheduledMessages(ctx) {
@@ -72,6 +90,10 @@ class Bot {
 
     handleActionGetHistory(ctx) {
         ctx.reply(`GetHistory`)
+    }
+
+    handleActionEditMessage() {
+        ctx.reply(`EditMessage`)
     }
 
 }

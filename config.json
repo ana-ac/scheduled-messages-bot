@@ -5,6 +5,10 @@
         "get_scheduled_messages",
         "get_history"
     ],
+    "buttons" : {
+        "add_schedule_message" :
+            [ "Edit message", "Edit date", "Edit means", "save"]
+    },
     "reply_messages" : [
         {
             "id" : "start",
@@ -18,6 +22,12 @@
         {
             "id" : "mention",
             "message" : "TELL ME"
+        },
+        {
+            "id" : "add_message_initial",
+            "message" : "Now you have to add the necessary information to manage the programmed message correctly.\n\nMessage: MESSAGE\nDate: DATE",
+            "replacers" : ["DATE", "MESSAGE"],
+            "empty_replacer" : true
         }
     ]
 }
