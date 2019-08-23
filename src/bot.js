@@ -21,19 +21,19 @@ class Bot {
     }
 
     handleCommand(ctx, command) {
-        const handler = `handle${helpers.capitalize(helpers.snakeCaseToCamelCase(command))}`
+        const handler = `handleAction${helpers.capitalize(helpers.snakeCaseToCamelCase(command))}`
         this[handler](ctx)
     }
 
-    handleScheduleMessage(ctx) {
-        ctx.reply(`ScheduleMessage`)
+    handleActionAddScheduleMessage(ctx) {
+        ctx.reply(`AddScheduleMessage`)
     }
 
-    handleGetScheduledMessages(ctx) {
+    handleActionGetScheduledMessages(ctx) {
         ctx.reply(`GetScheduledMessages`)
     }
 
-    handleGetHistory(ctx) {
+    handleActionGetHistory(ctx) {
         ctx.reply(`GetHistory`)
     }
 

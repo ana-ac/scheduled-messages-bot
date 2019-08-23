@@ -1,6 +1,6 @@
 {
     "commands" : [
-        "schedule_message",
+        "add_schedule_message",
         "get_scheduled_messages",
         "get_history"
     ]
