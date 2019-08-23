@@ -28,34 +28,7 @@ class Bot {
         this.bot_name = config.bot_name
         this.available_commands = config.available_commands
         this.buttons = config.buttons
-        this.reply_messages = this.processParameterConfig('reply_messages')
-    }
-
-    processParameterConfig(type) {
-        const process_function = `process${
-            helpers.capitalize(helpers.snakeCaseToCamelCase(type))
-        }`
-        return this[process_function]()
-    }
-
-    processReplyMessages() {
-        let _this = this;
-        let processReplacers = function(info) {
-            if (typeof info.replacers !== 'undefined') {
-                info.replacers.map(key => {
-                    if ((info.message.indexOf(key) !== -1) && (typeof _this[key.toLowerCase()] !== 'undefined' || info.empty_replacer)) {
-                        let value = typeof _this[key.toLowerCase()] !== 'undefined' ? _this[key.toLowerCase()] : '';
-                        info.message = info.message.replace(key, value);
-                    }
-                });
-            }
-            return info;
-        }
-        return config.reply_messages.reduce(function(processed, info){
-            info = processReplacers(info);
-            processed[info.id] = info.message
-            return processed
-        },{})
+        this.reply_messages = helpers.processMessages(this, config.reply_messages)
     }
 
     bindEvents() {
@@ -65,9 +38,9 @@ class Bot {
         config.available_commands.forEach(command => {
             this.bot.command(command, (ctx) => this.handleCommand(ctx, command))
         })
-        this.bot.on('callback_query', (ctx) => {
+        /*this.bot.on('callback_query', (ctx) => {
             this.telegram.answerCbQuery(ctx.callbackQuery.id, "Your scheduled message has been saved", true);
-        })
+        })*/
     }
 
     handleCommand(ctx, command) {
@@ -90,10 +63,6 @@ class Bot {
 
     handleActionGetHistory(ctx) {
         ctx.reply(`GetHistory`)
-    }
-
-    handleActionEditMessage() {
-        ctx.reply(`EditMessage`)
     }
 
 }
