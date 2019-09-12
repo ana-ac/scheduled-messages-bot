@@ -1,4 +1,4 @@
-function _processReplacers(_this, info) {
+function processReplacers(_this, info) {
     if (typeof info.replacers !== 'undefined') {
         info.replacers.map(key => {
             if ((info.message.indexOf(key) !== -1) &&
@@ -13,7 +13,7 @@ function _processReplacers(_this, info) {
 
 exports.processMessages = (_this, messages) => {
     return messages.reduce(function(processed, info){
-        info = _processReplacers(_this, info);
+        info = processReplacers(_this, info);
         processed[info.id] = info.message
         return processed
     },{})
@@ -25,4 +25,8 @@ exports.snakeCaseToCamelCase = (str) => str.replace(
                                     .replace('_', '')
 );
 
-exports.capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+exports.capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+
+exports.stringToSnakeCase = (str) => str.toLowerCase().split(' ').join('_')
+
+exports.removeFirstChar = (str) => str.slice(1)

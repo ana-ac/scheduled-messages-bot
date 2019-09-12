@@ -1,13 +1,12 @@
 {
     "botname" : "schedulito",
     "commands" : [
-        "add_schedule_message",
-        "get_scheduled_messages",
-        "get_history"
+        "add_scheduled_message",
+        "get_scheduled_messages"
     ],
     "buttons" : {
         "add_schedule_message" :
-            [ "Edit message", "Edit date", "Edit means", "save"]
+            [ "Edit message", "Edit date", "Edit means", "Save"]
     },
     "reply_messages" : [
         {
