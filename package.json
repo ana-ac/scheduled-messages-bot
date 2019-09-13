@@ -4,7 +4,12 @@
   "description": "A telegram bot to handle the scheduled messages",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start": "nodemon index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "engines": {
+    "node": ">=8.10.0"
   },
   "repository": {
     "type": "git",
@@ -30,6 +35,10 @@
     "telegraf-keyboard": "^1.1.2"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-promise": "^4.2.1",
     "nodemon": "^1.19.1"
   }
 }

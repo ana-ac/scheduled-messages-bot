@@ -1,4 +1,2 @@
-'use strict'
-
 // requirements
-require('./lib/index')
+require('./lib/index');

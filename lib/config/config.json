@@ -6,7 +6,12 @@
     ],
     "buttons" : {
         "add_schedule_message" :
-            [ "Edit message", "Edit date", "Edit means", "Save"]
+            [
+                "Edit message",
+                "Edit date",
+                "Edit means",
+                "Save"
+            ]
     },
     "reply_messages" : [
         {
