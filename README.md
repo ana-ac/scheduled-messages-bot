@@ -25,6 +25,10 @@ telegram
 bot
 nodejs
 telegraf
+eslint
+eslint-airbnb
+jsdoc
+docdash
 ```
 
 ### Related repositories
