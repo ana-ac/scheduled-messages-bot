@@ -29,12 +29,12 @@
   },
   "homepage": "https://github.com/ana-ac/scheduled-messages-bot#readme",
   "dependencies": {
-    "docdash": "^1.1.1",
     "dotenv-safe": "^8.1.0",
     "telegraf": "^3.32.0",
     "telegraf-keyboard": "^1.1.2"
   },
   "devDependencies": {
+    "docdash": "^1.1.1",
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
