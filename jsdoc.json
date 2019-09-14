@@ -7,7 +7,8 @@
         "includePattern": ".js$",
         "excludePattern": "(^|\\/|\\\\)_",
         "exclude": [
-            "node_modules"
+            "node_modules",
+            "docs"
         ]
     },
     "plugins": [
@@ -18,7 +19,8 @@
         "encoding": "utf8",
         "destination": "docs/",
         "recurse": true,
-        "verbose": true
+        "verbose": true,
+        "readme" : "README.md"
     },
     "templates": {
         "cleverLinks": false,

@@ -1,4 +1,4 @@
-# Scheduled Messages Bot
+## Scheduled Messages Bot
 It is a telegram bot that manages the messages that we want to program to be sent in the future
 on a certain date or periodically through some instant messaging application such as whatsapp or the telegram itself.
 

@@ -11,14 +11,14 @@
  * @param {object} info
  * @return {object}
  */
-function _processReplacers(ctx, info) {
+function processReplacers(ctx, info) {
     if (isParameterDefined('replacers', info)) {
         return info.replacers.reduce((result, key) => {
             let processedInfo = info;
-            if (_findNeedle(key, info.message)) {
+            if (findNeedle(key, info.message)) {
                 processedInfo.message = info.message.replace(
                     key,
-                    info.empty_replacer ? '' : _setValueToReplace(ctx, key)
+                    info.empty_replacer ? '' : setValueToReplace(ctx, key)
                 );
             }
             return processedInfo;
@@ -34,8 +34,8 @@ function _processReplacers(ctx, info) {
  * @param {string|int} key key to find in object
  * @returns {string} Value to be replaced
  */
-function _setValueToReplace(ctx, key) {
-    return _isParameterDefined(key.toLowerCase(), ctx) ? ctx[key.toLowerCase()] : '';
+function setValueToReplace(ctx, key) {
+    return isParameterDefined(key.toLowerCase(), ctx) ? ctx[key.toLowerCase()] : '';
 }
 
 /**
@@ -46,7 +46,7 @@ function _setValueToReplace(ctx, key) {
  * @param {string|int} haystack
  * @return {bool}
  */
-function _findNeedle(needle, haystack) {
+function findNeedle(needle, haystack) {
     return (haystack.indexOf(needle) !== -1);
 }
 
@@ -58,7 +58,7 @@ function _findNeedle(needle, haystack) {
  * @param {object|null} haystack
  * @returns {bool}
  */
-function _isParameterDefined(needle, haystack = null) {
+function isParameterDefined(needle, haystack = null) {
     let result = false;
     if (haystack === null) {
         result = (typeof needle !== 'undefined');
@@ -77,7 +77,7 @@ function _isParameterDefined(needle, haystack = null) {
  * @return {array}
  */
 exports.processMessages = (ctx, messages) => messages.reduce((result, info) => {
-    const processedInfo = _processReplacers(ctx, info);
+    const processedInfo = processReplacers(ctx, info);
     result[processedInfo.id] = processedInfo.message;
     return result;
 }, {});
