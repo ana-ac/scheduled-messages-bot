@@ -7,7 +7,7 @@
     "start": "nodemon index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json"
+    "docs:generate": "node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "engines": {
     "node": ">=8.10.0"
