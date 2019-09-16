@@ -1,2 +1,2 @@
 // requirements
-require('./lib/index');
+require('./lib')();

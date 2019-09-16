@@ -23,7 +23,7 @@ module.exports = {
     bot_name : config.botname,
     available_commands : config.commands,
     reply_messages : config.reply_messages,
-    telegram_token : process.env.TOKEM_TELEGRAM_BOT,
-    domain : process.env.DOMAIN,
     port : process.env.PORT,
+    domain : process.env.DOMAIN,
+    telegram_token : process.env.TOKEM_TELEGRAM_BOT,
 };
