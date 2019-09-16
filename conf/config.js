@@ -15,6 +15,8 @@ const config = require('./config.json');
  * @property {array} available_commands
  * @property {array} reply_messages
  * @property {int} telegram_token
+ * @property {int} port
+ * @property {string} domain
  */
 module.exports = {
     buttons : config.buttons,
@@ -22,4 +24,6 @@ module.exports = {
     available_commands : config.commands,
     reply_messages : config.reply_messages,
     telegram_token : process.env.TOKEM_TELEGRAM_BOT,
+    domain : process.env.DOMAIN,
+    port : process.env.PORT,
 };
