@@ -7,10 +7,14 @@
     "start": "nodemon index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "docs:generate": "node_modules/.bin/jsdoc -c jsdoc.json"
+    "docs:generate": "node_modules/.bin/jsdoc -c jsdoc.json",
+    "docs:add": "git add --verbose -- *docs/*"
   },
   "engines": {
     "node": ">=8.10.0"
+  },
+  "pre-commit": {
+    "run": "docs:generate, docs:add"
   },
   "repository": {
     "type": "git",

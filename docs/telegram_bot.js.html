@@ -29,7 +29,7 @@
     
     <input type="text" id="nav-search" placeholder="Search" />
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Bot.html">Bot</a><ul class='methods'><li data-type='method'><a href="Bot.html#loadConfig">loadConfig</a></li></ul></li><li><a href="module-telegrambot-TelegramBot.html">TelegramBot</a><ul class='methods'><li data-type='method'><a href="module-telegrambot-TelegramBot.html#areDataMessageCorrect">areDataMessageCorrect</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#bindEvents">bindEvents</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#buildKeyboard">buildKeyboard</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#buildPrintScheduledMessage">buildPrintScheduledMessage</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#commandHandler">commandHandler</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#errorHandler">errorHandler</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#formatResponseScheduledMessages">formatResponseScheduledMessages</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#handleAddScheduledMessage">handleAddScheduledMessage</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#handleGetScheduledMessages">handleGetScheduledMessages</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#handleResponseScheduledMessages">handleResponseScheduledMessages</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#loadConfig">loadConfig</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-telegrambot.html">telegrambot</a><ul class='methods'><li data-type='method'><a href="module-telegrambot.html#~launch">launch</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-bot-Bot.html">Bot</a></li><li><a href="module-telegrambot-TelegramBot.html">TelegramBot</a></li></ul><h3>Modules</h3><ul><li><a href="module-bot.html">bot</a></li><li><a href="module-config.html">config</a></li><li><a href="module-helpers.html">helpers</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-helpers.html#~capitalize">capitalize</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~findNeedle">findNeedle</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~isParameterDefined">isParameterDefined</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~processMessages">processMessages</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~processReplacers">processReplacers</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~removeFirstChar">removeFirstChar</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~setValueToReplace">setValueToReplace</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~snakeCaseToCamelCase">snakeCaseToCamelCase</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~stringToSnakeCase">stringToSnakeCase</a></li></ul></li><li><a href="module-models.html">models</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-models.html#~get">get</a></li></ul></li><li><a href="module-telegrambot.html">telegrambot</a></li></ul><h3>Global</h3><ul><li><a href="global.html#available_commands">available_commands</a></li><li><a href="global.html#bot">bot</a></li><li><a href="global.html#bot_name">bot_name</a></li><li><a href="global.html#buttons">buttons</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#listToString">listToString</a></li><li><a href="global.html#reply_messages">reply_messages</a></li></ul>
 </nav>
 
 <div id="main">
@@ -45,216 +45,159 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * A module that handle Telegram Bot
  * @module telegrambot
- * @author Ana Arriaga Coll
+ * @requires bot
+ * @requires conf
+ * @requires services
+ * @requires helpers
+ * @requires lodash
+ * @requires telegraf
+ * @requires telegraf-keyboard
  */
 
 // dependencies
 const Telegraf = require('telegraf');
 const Keyboard = require('telegraf-keyboard');
 
-// requirements
-const config = require('./config/config');
-const helpers = require('./../bin/utils');
-const Bot = require('./bot');
-const {
-    getScheduledMessages,
-    addScheduledMessage,
-} = require('./controllers/scheduled_messages');
-
-/**
- * @class
- * @classdesc TelegramBot class that handle all the events that receives from the bot and the business logic
- * @extends Bot
- * @see {@link bot.js}
- */
-class TelegramBot extends Bot {
+module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
 
     /**
-     * @constructor
+     * @class
+     * @classdesc TelegramBot class that handle all the events that receives
+     * from the bot and the business logic
+     * @extends Bot
+     * @see {@link bot.js}
      */
-    constructor() {
-        super(
-            new Telegraf(config.telegram_token)
-        );
+    class TelegramBot extends Bot {
         /**
-         * @readonly
-         * @property {bool} inline
-         * @property {bool} newline
-         * @property {bool} duplicates
-         * @type {bool}
+         * @constructor
          */
-        this.keyboard_options = {
-            inline : true,
-            newline : true,
-            duplicates : true
-        };
-    }
+        constructor() {
+            super(
+                new Telegraf(conf.telegram_token)
+            );
+            /**
+             * @readonly
+             * @property {bool} inline
+             * @property {bool} newline
+             * @property {bool} duplicates
+             * @type {bool}
+             */
+            this.keyboard_options = {
+                inline : true,
+                newline : true,
+                duplicates : true
+            };
+        }
 
-    /**
-     * Launch telegram bot
-     * @function
-     * @name launch
-     * @return {void}
-     */
-    launch() {
-        this.bot.launch();
-    }
-
-    /**
-     * Bind all events that this bot is going handle
-     * @see {@link commandHandler}
-     * @return {void}
-     */
-    bindEvents() {
-        this.bot.start((ctx) => ctx.reply(this.reply_messages.start));
-        this.bot.help((ctx) => ctx.reply(this.reply_messages.help));
-        this.bot.mention(this.bot_name, (ctx) => ctx.reply(this.reply_messages.mention));
-        this.available_commands.forEach((command) => {
-            this.bot.command(command, (ctx) => this.commandHandler(ctx, command));
-        });
-        // this.bot.action(this.processAction);
-    }
-
-    /**
-     * Handle commands thows from bot
-     * @param {object} ctx Telegraf context
-     * @param {string} action Name of command executed
-     */
-    commandHandler(ctx, action) {
         /**
-         * @const
-         * @type {string}
+         * Launch telegram bot
          */
-        const fn = `handle${helpers.capitalize(helpers.snakeCaseToCamelCase(action))}`;
-        this[fn](ctx);
-    }
-    /**
-     * Handle action to get scheduled messages
-     * @param  {object} ctx
-     */
-    handleGetScheduledMessages(ctx) {
-        try {
+        launch() {
+            this.bot.launch();
+        }
+
+        /**
+         * Bind all events that this bot is going handle
+         * @see commandHandler
+         */
+        bindEvents() {
+            this.bot.start((ctx) => ctx.reply(this.reply_messages.start));
+            this.bot.help((ctx) => ctx.reply(this.reply_messages.help));
+            this.bot.mention(this.bot_name, (ctx) => ctx.reply(this.reply_messages.mention));
+            this.available_commands.forEach((command) => {
+                this.bot.command(command, (ctx) => this.commandHandler(ctx, command));
+            });
+            // this.bot.action(this.processAction);
+        }
+
+        /**
+         * Handle commands thows from bot
+         * @param {object} ctx Telegraf context
+         * @param {string} action Name of command executed
+         * @see handleGetScheduledMessages
+         * @see handleAddScheduledMessage
+         */
+        commandHandler(ctx, action) {
             /**
              * @const
-             * @type {array}
-             * @default
+             * @type {string}
              */
-            const criterias = [];
+            const fn = `handle${helpers.capitalize(helpers.snakeCaseToCamelCase(action))}`;
+            this[fn](ctx);
+        }
+
+        /**
+         * Handle action to get scheduled messages
+         * @param  {object} ctx
+         * @see scheduledMessages
+         * @see errorHandler
+         */
+        async handleGetScheduledMessages(ctx) {
+            try {
+                const data = await scheduledMessages.list();
+                const data_formatted = await scheduledMessages.listToString(data);
+                ctx.reply(data_formatted);
+            } catch (err) {
+                this.errorHandler(ctx, err.message);
+            }
+        }
+
+        /**
+         * Handle action to add scheduled messages
+         * @param  {object} ctx
+         * @see buildKeyboard
+         * @see areDataMessageCorrect
+         */
+        handleAddScheduledMessage(ctx) {
             /**
              * @const
              * @type {object}
+             * @default
              */
-            const response = getScheduledMessages(criterias);
-            this.handleResponseScheduledMessages(ctx, response);
-        } catch (err) {
-            this.errorHandler(ctx, err.message);
+            const data = {};
+            if (!this.areDataMessageCorrect(data)) {
+                this.buildKeyboard(
+                    ctx,
+                    this.reply_messages.add_message_initial,
+                    this.buttons.add_schedule_message,
+                );
+                return;
+            }
+            // if data necessary from message is ok will be send to controller
+            //addScheduledMessage(data);
         }
-    }
-    /**
-     * Handle action to add scheduled messages
-     * @param  {object} ctx
-     */
-    handleAddScheduledMessage(ctx) {
+
         /**
-         * @const
-         * @type {object}
-         * @default
+         * Handle error ocurred
+         * @param {object} ctx
+         * @param {string} message
          */
-        const data = {};
-        if (!this.areDataMessageCorrect(data)) {
-            this.buildKeyboard(
-                ctx,
-                this.reply_messages.add_message_initial,
-                this.buttons.add_schedule_message,
+        errorHandler(ctx, message) {
+            ctx.reply(message);
+        }
+
+        /**
+         * Draw keyboard in message
+         * @param {object} ctx
+         * @param {message} message
+         * @param {object} buttons
+         */
+        buildKeyboard(ctx, message, buttons) {
+            // set initial
+            const options = this.keyboard_options;
+            // handle keyboard
+            const keyboard = new Keyboard(options);
+            keyboard.add(...buttons);
+            ctx.reply(
+                message,
+                keyboard.draw()
             );
-            return;
         }
-        // if data necessary from message is ok will be send to controller
-        addScheduledMessage(data);
-    }
-    /**
-     * Handle response received from API of taking the scheduled messages
-     * @param  {object} ctx
-     * @param  {object} response
-     */
-    handleResponseScheduledMessages(ctx, response) {
-        if (!helpers.isParameterDefined('scheduled_messages', response) || response.scheduled_messages.length === 0) {
-            ctx.reply('There are any scheduled meessages pending to send');
-            return;
-        }
-        /**
-         * @const
-         * @type {object}
-         */
-        const scheduledMessages = this.formatResponseScheduledMessages(
-            response.scheduled_messages
-        );
-        ctx.reply(scheduledMessages);
-    }
 
-
-    /**
-     * Format the response of the scheduled messages to show like string
-     * @param  {object} scheduledMessages
-     * @returns {string} scheduled message in a string
-     */
-    formatResponseScheduledMessages(scheduledMessages) {
-        return scheduledMessages.reduce((result, item) => {
-            result.push(this.buildPrintScheduledMessage(item));
-            return result;
-        }, []).join('\n\n');
     }
-
-    /**
-     * Build Scheduled message info in string
-     * @param {object} item
-     * @returns {string} Scheduled message in string
-     */
-    buildPrintScheduledMessage(item) {
-        return `To: ${item.alias}\nDate: ${item.date}\nMessages to send:\n${item.message}`;
-    }
-    /**
-     * Check if we have all content necessary to add a scheduled message
-     * @param  {object} data
-     * @returns {bool} we have all data?
-     */
-    areDataMessageCorrect(data) {
-        return false;
-    }
-
-    /**
-     * Handle error ocurred
-     * @param {object} ctx
-     * @param {string} message
-     */
-    errorHandler(ctx, message) {
-        ctx.reply('Oupss ... Some error ocurred\n');
-        ctx.reply(message);
-    }
-
-    /**
-     * Draw keyboard in message
-     * @param {object} ctx
-     * @param {message} message
-     * @param {object} buttons
-     */
-    buildKeyboard(ctx, message, buttons) {
-        // set initial
-        const options = this.keyboard_options;
-        // handle keyboard
-        const keyboard = new Keyboard(options);
-        keyboard.add(...buttons);
-        ctx.reply(
-            message,
-            keyboard.draw()
-        );
-    }
-}
-
-module.exports = new TelegramBot();
-</code></pre>
+    return new TelegramBot();
+}</code></pre>
         </article>
     </section>
 
@@ -279,7 +222,7 @@ module.exports = new TelegramBot();
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Sep 14 2019 15:36:26 GMT+0200 (GMT+02:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Sep 18 2019 01:10:45 GMT+0200 (GMT+02:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
@@ -288,6 +231,8 @@ module.exports = new TelegramBot();
 
 <script src="scripts/search.js" defer></script>
 
+
+<script src="scripts/collapse.js" defer></script>
 
 
 </body>

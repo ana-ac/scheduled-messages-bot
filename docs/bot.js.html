@@ -29,7 +29,7 @@
     
     <input type="text" id="nav-search" placeholder="Search" />
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Bot.html">Bot</a><ul class='methods'><li data-type='method'><a href="Bot.html#loadConfig">loadConfig</a></li></ul></li><li><a href="module-telegrambot-TelegramBot.html">TelegramBot</a><ul class='methods'><li data-type='method'><a href="module-telegrambot-TelegramBot.html#areDataMessageCorrect">areDataMessageCorrect</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#bindEvents">bindEvents</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#buildKeyboard">buildKeyboard</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#buildPrintScheduledMessage">buildPrintScheduledMessage</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#commandHandler">commandHandler</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#errorHandler">errorHandler</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#formatResponseScheduledMessages">formatResponseScheduledMessages</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#handleAddScheduledMessage">handleAddScheduledMessage</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#handleGetScheduledMessages">handleGetScheduledMessages</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#handleResponseScheduledMessages">handleResponseScheduledMessages</a></li><li data-type='method'><a href="module-telegrambot-TelegramBot.html#loadConfig">loadConfig</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-telegrambot.html">telegrambot</a><ul class='methods'><li data-type='method'><a href="module-telegrambot.html#~launch">launch</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module-bot-Bot.html">Bot</a></li><li><a href="module-telegrambot-TelegramBot.html">TelegramBot</a></li></ul><h3>Modules</h3><ul><li><a href="module-bot.html">bot</a></li><li><a href="module-config.html">config</a></li><li><a href="module-helpers.html">helpers</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-helpers.html#~capitalize">capitalize</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~findNeedle">findNeedle</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~isParameterDefined">isParameterDefined</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~processMessages">processMessages</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~processReplacers">processReplacers</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~removeFirstChar">removeFirstChar</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~setValueToReplace">setValueToReplace</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~snakeCaseToCamelCase">snakeCaseToCamelCase</a></li><li data-type='method' style='display: none;'><a href="module-helpers.html#~stringToSnakeCase">stringToSnakeCase</a></li></ul></li><li><a href="module-models.html">models</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-models.html#~get">get</a></li></ul></li><li><a href="module-telegrambot.html">telegrambot</a></li></ul><h3>Global</h3><ul><li><a href="global.html#available_commands">available_commands</a></li><li><a href="global.html#bot">bot</a></li><li><a href="global.html#bot_name">bot_name</a></li><li><a href="global.html#buttons">buttons</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#listToString">listToString</a></li><li><a href="global.html#reply_messages">reply_messages</a></li></ul>
 </nav>
 
 <div id="main">
@@ -44,42 +44,62 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// requirements
-const config = require('./config/config');
-const helpers = require('./../bin/utils');
-
-/**
- * Bot Class is the father of the implemented bots and handle the common logic
- * @class
- * @see {@link bot.js}
+            <pre class="prettyprint source linenums"><code>/**
+ * @module bot
+ * @requires conf
+ * @requires helpers
+ * @requires lodash
  */
-class Bot {
+
+module.exports = (conf, helpers) =>  {
     /**
-     *
-     * @param {object} bot
+     * @class
+     * @classdesc Bot Class is the father of the implemented bots and handle the common logic
      */
-    constructor(bot) {
-        this.bot = bot;
-        this.loadConfig();
-        if (helpers.isParameterDefined('bindEvents', this)) {
-            this.bindEvents();
+    class Bot {
+        /**
+         * @constructor
+         * @param {object} bot
+         * @see helpers
+         * @see loadconf
+         * @see bindEvents
+         */
+        constructor(bot) {
+            /** @global */
+            this.bot = bot;
+            this.loadconf();
+            if (helpers.isParameterDefined('bindEvents', this)) {
+                this.bindEvents();
+            }
         }
+
+        /**
+         * Load conf for application
+         */
+        loadconf() {
+            /** @global */
+            this.buttons = conf.buttons || {};
+            /** @global */
+            this.bot_name = conf.bot_name || '';
+            /** @global */
+            this.available_commands = conf.available_commands || [];
+            /** @global */
+            this.reply_messages = helpers.processMessages(this, conf.reply_messages) || {};
+        }
+
+        /**
+         * Check if we have all content necessary to add a scheduled message
+         * @param  {object} data
+         * @returns {bool} we have all data?
+         */
+        areDataMessageCorrect(data) {
+            return false;
+        }
+
     }
-    /**
-     * Load config for application
-     */
-    loadConfig() {
-        this.buttons = config.buttons || {};
-        this.bot_name = config.bot_name || '';
-        this.available_commands = config.available_commands || [];
-        this.reply_messages = helpers.processMessages(this, config.reply_messages) || {};
-    }
+    return Bot;
 }
 
-/**
- * @export
- */
-module.exports = Bot;
 </code></pre>
         </article>
     </section>
@@ -105,7 +125,7 @@ module.exports = Bot;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Sep 14 2019 15:36:26 GMT+0200 (GMT+02:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Sep 18 2019 01:10:45 GMT+0200 (GMT+02:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
@@ -114,6 +134,8 @@ module.exports = Bot;
 
 <script src="scripts/search.js" defer></script>
 
+
+<script src="scripts/collapse.js" defer></script>
 
 
 </body>
