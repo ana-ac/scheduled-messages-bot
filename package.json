@@ -14,7 +14,11 @@
     "node": ">=8.10.0"
   },
   "pre-commit": {
-    "run": "docs:generate, docs:add"
+    "run": [
+        "lint:fix",
+        "docs:generate",
+        "docs:add"
+    ]
   },
   "repository": {
     "type": "git",
