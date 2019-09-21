@@ -21,14 +21,16 @@ on a certain date or periodically through some instant messaging application suc
 ### keywords
 
 ```
-telegram
-bot
 nodejs
+bot
+telegram-bot
+telegram
 telegraf
+telegraf-keyboard
 eslint
 eslint-airbnb
-jsdoc
 docdash
+docdash-elegant
 ```
 
 ### Related repositories
