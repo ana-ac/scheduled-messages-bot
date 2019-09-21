@@ -3,18 +3,16 @@
  * @requires bot
  * @requires conf
  * @requires services
- * @requires helpers
- * @requires lodash
- * @requires telegraf
- * @requires telegraf-keyboard
+ * @requires utils
  */
 
 // dependencies
+/** @external telegraf */
 const Telegraf = require('telegraf');
+/** @external telegraf-keyboard */
 const Keyboard = require('telegraf-keyboard');
 
 module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
-
     /**
      * @class
      * @classdesc TelegramBot class that handle all the events that receives
@@ -38,9 +36,9 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
              * @type {bool}
              */
             this.keyboard_options = {
-                inline : true,
-                newline : true,
-                duplicates : true
+                inline: true,
+                newline: true,
+                duplicates: true
             };
         }
 
@@ -96,8 +94,8 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
         async handleGetScheduledMessages(ctx) {
             try {
                 const data = await scheduledMessages.list();
-                const data_formatted = await scheduledMessages.listToString(data);
-                ctx.reply(data_formatted);
+                const DataFormatted = await scheduledMessages.listToString(data);
+                ctx.reply(DataFormatted);
             } catch (err) {
                 this.errorHandler(ctx, err.message);
             }
@@ -124,10 +122,10 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
                     this.reply_messages.add_message_initial,
                     this.buttons.add_schedule_message,
                 );
-                return;
+                // return
             }
             // if data necessary from message is ok will be send to controller
-            //addScheduledMessage(data);
+            // addScheduledMessage(data);
         }
 
         /**
@@ -160,7 +158,6 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
                 keyboard.draw()
             );
         }
-
     }
     return new TelegramBot();
-}
+};

@@ -1,6 +1,5 @@
 /**
- * @module helpers
- * @requires lodash
+ * @module utils/helpers
  */
 
 module.exports = () => {
@@ -15,7 +14,7 @@ module.exports = () => {
     function processReplacers(ctx, info) {
         if (isParameterDefined('replacers', info)) {
             return info.replacers.reduce((result, key) => {
-                let processedInfo = info;
+                const processedInfo = info;
                 if (findNeedle(key, info.message)) {
                     processedInfo.message = info.message.replace(
                         key,
@@ -78,13 +77,13 @@ module.exports = () => {
          * @param {array} messages
          * @return {array}
          */
-        processMessages : (ctx, messages) => messages.reduce((result, info) => {
+        processMessages: (ctx, messages) => messages.reduce((result, info) => {
             const processedInfo = processReplacers(ctx, info);
             result[processedInfo.id] = processedInfo.message;
             return result;
         }, {}),
-        findNeedle : (needle, haystack) => findNeedle(needle, haystack),
-        isParameterDefined : (needle, haystack) => isParameterDefined(needle, haystack),
+        findNeedle: (needle, haystack) => findNeedle(needle, haystack),
+        isParameterDefined: (needle, haystack) => isParameterDefined(needle, haystack),
         /**
          * Transform string in snake case format to camel case
          * @function
@@ -92,7 +91,7 @@ module.exports = () => {
          * @param {string} str
          * @return {string}
          */
-        snakeCaseToCamelCase : (str) => str.replace(
+        snakeCaseToCamelCase: (str) => str.replace(
             /([-_][a-z])/g, (group) => group.toUpperCase()
                 .replace('-', '')
                 .replace('_', '')
@@ -104,7 +103,7 @@ module.exports = () => {
          * @param {string} str
          * @return {string}
          */
-        capitalize : (str) => str.charAt(0).toUpperCase() + str.slice(1),
+        capitalize: (str) => str.charAt(0).toUpperCase() + str.slice(1),
         /**
          * Transform a sentence to snake case replacinf the spaces by underscore
          * @function
@@ -112,7 +111,7 @@ module.exports = () => {
          * @param {string} str
          * @return {string}
          */
-        stringToSnakeCase : (str) => str.toLowerCase().split(' ').join('_'),
+        stringToSnakeCase: (str) => str.toLowerCase().split(' ').join('_'),
 
         /**
          * Remove the first character of a string
@@ -121,6 +120,6 @@ module.exports = () => {
          * @param {string} str
          * @return {string}
          */
-        removeFirstChar : (str) => str.slice(1)
-    }
-}
+        removeFirstChar: (str) => str.slice(1)
+    };
+};

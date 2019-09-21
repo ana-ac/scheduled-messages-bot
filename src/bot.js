@@ -1,11 +1,10 @@
 /**
  * @module bot
  * @requires conf
- * @requires helpers
- * @requires lodash
+ * @requires utils/helpers
  */
 
-module.exports = (conf, helpers) =>  {
+module.exports = (conf, helpers) => {
     /**
      * @class
      * @classdesc Bot Class is the father of the implemented bots and handle the common logic
@@ -53,8 +52,6 @@ module.exports = (conf, helpers) =>  {
         areDataMessageCorrect(data) {
             return false;
         }
-
     }
     return Bot;
-}
-
+};

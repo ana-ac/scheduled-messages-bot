@@ -1,3 +1,8 @@
+/**
+ * @module services/scheduled_messages
+ * @requires models
+ */
+
 module.exports = (models) => {
     return { list, listToString };
     /**
@@ -19,11 +24,11 @@ module.exports = (models) => {
      */
     function listToString(data) {
         if (data.length === 0) {
-            throw Error(`Error getting scheduled messages`)
+            throw Error('Error getting scheduled messages');
         }
         return data.reduce((result, item) => {
             result.push(`To: ${item.alias}\nDate: ${item.date}\nMessages to send:\n${item.message}`);
             return result;
         }, []).join('\n\n');
     }
-}
+};

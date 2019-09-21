@@ -1,5 +1,9 @@
-module.exports = (models) => {
-    return {
-        scheduledMessages: require("./scheduled_messages")(models)
-    };
-};
+/**
+ * @module services
+ * @requires services/scheduled_messages
+ * @requires models
+ */
+
+module.exports = (models) => ({
+    scheduledMessages: require('./scheduled_messages')(models)
+});
