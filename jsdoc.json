@@ -15,7 +15,7 @@
         "plugins/markdown"
     ],
     "opts": {
-        "template": "node_modules/docdash",
+        "template": "node_modules/docdash-elegant",
         "encoding": "utf8",
         "destination": "docs/",
         "recurse": true,
@@ -30,6 +30,7 @@
         "static": true,
         "sort": true,
         "collapse" : true,
+        "name" : "Scheduled Messages Bot",
         "sectionOrder": [
              "Classes",
              "Modules",

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>bot.js - Documentation</title>
+    <title>utils/helpers.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -41,7 +41,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">bot.js</h1>
+    <h1 class="page-title">utils/helpers.js</h1>
     
 
     
@@ -52,61 +52,131 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module bot
- * @requires conf
- * @requires helpers
+ * @module helpers
  * @requires lodash
  */
 
-module.exports = (conf, helpers) =>  {
+module.exports = () => {
     /**
-     * @class
-     * @classdesc Bot Class is the father of the implemented bots and handle the common logic
+     * Process a replacers object in another object and replace the keywords
+     * @function
+     * @name processReplacers
+     * @param {object} ctx
+     * @param {object} info
+     * @return {object}
      */
-    class Bot {
-        /**
-         * @constructor
-         * @param {object} bot
-         * @see helpers
-         * @see loadconf
-         * @see bindEvents
-         */
-        constructor(bot) {
-            /** @global */
-            this.bot = bot;
-            this.loadconf();
-            if (helpers.isParameterDefined('bindEvents', this)) {
-                this.bindEvents();
-            }
+    function processReplacers(ctx, info) {
+        if (isParameterDefined('replacers', info)) {
+            return info.replacers.reduce((result, key) => {
+                let processedInfo = info;
+                if (findNeedle(key, info.message)) {
+                    processedInfo.message = info.message.replace(
+                        key,
+                        info.empty_replacer ? '' : setValueToReplace(ctx, key)
+                    );
+                }
+                return processedInfo;
+            }, {});
         }
-
-        /**
-         * Load conf for application
-         */
-        loadconf() {
-            /** @global */
-            this.buttons = conf.buttons || {};
-            /** @global */
-            this.bot_name = conf.bot_name || '';
-            /** @global */
-            this.available_commands = conf.available_commands || [];
-            /** @global */
-            this.reply_messages = helpers.processMessages(this, conf.reply_messages) || {};
-        }
-
-        /**
-         * Check if we have all content necessary to add a scheduled message
-         * @param  {object} data
-         * @returns {bool} we have all data?
-         */
-        areDataMessageCorrect(data) {
-            return false;
-        }
-
+        return info;
     }
-    return Bot;
-}
+    /**
+     * Decide for what value should be replaced
+     * @function
+     * @name setValueToReplace
+     * @param {object} ctx object where find the replacer
+     * @param {string|int} key key to find in object
+     * @returns {string} Value to be replaced
+     */
+    function setValueToReplace(ctx, key) {
+        return isParameterDefined(key.toLowerCase(), ctx) ? ctx[key.toLowerCase()] : '';
+    }
 
+    /**
+     * Say if the parameter is defined
+     * @function
+     * @name findNeedle
+     * @param {array|string} needle
+     * @param {string|int} haystack
+     * @return {bool}
+     */
+    function findNeedle(needle, haystack) {
+        return (haystack.indexOf(needle) !== -1);
+    }
+
+    /**
+     * Check if the paraemter is defined in the haystck given
+     * @function
+     * @name isParameterDefined
+     * @param {string|int} needle
+     * @param {object|null} haystack
+     * @returns {bool}
+     */
+    function isParameterDefined(needle, haystack = null) {
+        let result = false;
+        if (haystack === null) {
+            result = (typeof needle !== 'undefined');
+        } else if (typeof haystack === 'object') {
+            result = (typeof haystack[needle] !== 'undefined');
+        }
+        return result;
+    }
+
+    return {
+        /**
+         * Process objects with certain info to replace keys in for each message
+         * @function
+         * @name processMessages
+         * @param {object} ctx
+         * @param {array} messages
+         * @return {array}
+         */
+        processMessages : (ctx, messages) => messages.reduce((result, info) => {
+            const processedInfo = processReplacers(ctx, info);
+            result[processedInfo.id] = processedInfo.message;
+            return result;
+        }, {}),
+        findNeedle : (needle, haystack) => findNeedle(needle, haystack),
+        isParameterDefined : (needle, haystack) => isParameterDefined(needle, haystack),
+        /**
+         * Transform string in snake case format to camel case
+         * @function
+         * @name snakeCaseToCamelCase
+         * @param {string} str
+         * @return {string}
+         */
+        snakeCaseToCamelCase : (str) => str.replace(
+            /([-_][a-z])/g, (group) => group.toUpperCase()
+                .replace('-', '')
+                .replace('_', '')
+        ),
+        /**
+         * Transform first character of string to upper case
+         * @function
+         * @name capitalize
+         * @param {string} str
+         * @return {string}
+         */
+        capitalize : (str) => str.charAt(0).toUpperCase() + str.slice(1),
+        /**
+         * Transform a sentence to snake case replacinf the spaces by underscore
+         * @function
+         * @name stringToSnakeCase
+         * @param {string} str
+         * @return {string}
+         */
+        stringToSnakeCase : (str) => str.toLowerCase().split(' ').join('_'),
+
+        /**
+         * Remove the first character of a string
+         * @function
+         * @name removeFirstChar
+         * @param {string} str
+         * @return {string}
+         */
+        removeFirstChar : (str) => str.slice(1)
+    }
+}
 </code></pre>
         </article>
     </section>

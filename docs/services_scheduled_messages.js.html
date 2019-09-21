@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>conf/index.js - Documentation</title>
+    <title>services/scheduled_messages.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -41,7 +41,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">conf/index.js</h1>
+    <h1 class="page-title">services/scheduled_messages.js</h1>
     
 
     
@@ -51,36 +51,35 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @module config
- * @requires config.json
- * @requires dotenv-safe
- */
-
-// requirements
-require('dotenv-safe').config();
-const config = require('./config.json');
-
-/**
- * Data exports
- * @property {array} buttons
- * @property {string} bot_name
- * @property {array} available_commands
- * @property {array} reply_messages
- * @property {int} telegram_token
- * @property {int} port
- * @property {string} domain
- */
-module.exports = {
-    buttons : config.buttons,
-    bot_name : config.botname,
-    available_commands : config.commands,
-    reply_messages : config.reply_messages,
-    port : process.env.PORT,
-    domain : process.env.DOMAIN,
-    telegram_token : process.env.TOKEM_TELEGRAM_BOT,
-};
-</code></pre>
+            <pre class="prettyprint source linenums"><code>module.exports = (models) => {
+    return { list, listToString };
+    /**
+     * To get the scheduled messages from model
+     * @function
+     * @name list
+     * @returns {array}
+     */
+    async function list() {
+        const messages = await models.ScheduledMessage.get();
+        return messages.filter((message) => message.scheduled);
+    }
+    /**
+     * Get a messages formatted in a text
+     * @function
+     * @name listToString
+     * @param {array} data
+     * @returns {string}
+     */
+    function listToString(data) {
+        if (data.length === 0) {
+            throw Error(`Error getting scheduled messages`)
+        }
+        return data.reduce((result, item) => {
+            result.push(`To: ${item.alias}\nDate: ${item.date}\nMessages to send:\n${item.message}`);
+            return result;
+        }, []).join('\n\n');
+    }
+}</code></pre>
         </article>
     </section>
 

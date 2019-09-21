@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>conf/index.js - Documentation</title>
+    <title>models.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -41,7 +41,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">conf/index.js</h1>
+    <h1 class="page-title">models.js</h1>
     
 
     
@@ -52,34 +52,41 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module config
- * @requires config.json
- * @requires dotenv-safe
+ * @module models
+ * @requires conf
+ * @requires fetch
+ * @requires lodash
  */
 
 // requirements
-require('dotenv-safe').config();
-const config = require('./config.json');
+const fetch = require('node-fetch');
 
-/**
- * Data exports
- * @property {array} buttons
- * @property {string} bot_name
- * @property {array} available_commands
- * @property {array} reply_messages
- * @property {int} telegram_token
- * @property {int} port
- * @property {string} domain
- */
-module.exports = {
-    buttons : config.buttons,
-    bot_name : config.botname,
-    available_commands : config.commands,
-    reply_messages : config.reply_messages,
-    port : process.env.PORT,
-    domain : process.env.DOMAIN,
-    telegram_token : process.env.TOKEM_TELEGRAM_BOT,
-};
+module.exports = (conf) => {
+    const baseUrl = `${conf.domain}:${conf.port}`;
+    const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+    }
+
+    const ScheduledMessage = {
+        /**
+         * API call to get messages
+         * @function
+         * @name get
+         * @returns {promise}
+         */
+        get: () => {
+            const apiUrl = `${baseUrl}/messages`
+            const requestConfig = {
+                method: 'GET',
+                headers
+            }
+            return fetch(apiUrl, requestConfig)
+                .then(response => response.json())
+        }
+    }
+    return { ScheduledMessage };
+}
 </code></pre>
         </article>
     </section>
