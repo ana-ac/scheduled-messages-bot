@@ -53,6 +53,8 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
 
         /**
          * Bind all events that this bot is going handle
+         * @function
+         * @name bindEvents
          * @see commandHandler
          */
         bindEvents() {
@@ -67,6 +69,8 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
 
         /**
          * Handle commands thows from bot
+         * @function
+         * @name commandHandler
          * @param {object} ctx Telegraf context
          * @param {string} action Name of command executed
          * @see handleGetScheduledMessages
@@ -83,6 +87,8 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
 
         /**
          * Handle action to get scheduled messages
+         * @function
+         * @name handleGetScheduledMessages
          * @param  {object} ctx
          * @see scheduledMessages
          * @see errorHandler
@@ -99,6 +105,8 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
 
         /**
          * Handle action to add scheduled messages
+         * @function
+         * @name handleAddScheduledMessage
          * @param  {object} ctx
          * @see buildKeyboard
          * @see areDataMessageCorrect
@@ -124,6 +132,8 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
 
         /**
          * Handle error ocurred
+         * @function
+         * @name errorHandler
          * @param {object} ctx
          * @param {string} message
          */
@@ -133,6 +143,8 @@ module.exports = (conf, helpers, { scheduledMessages }, Bot) => {
 
         /**
          * Draw keyboard in message
+         * @function
+         * @name buildKeyboard
          * @param {object} ctx
          * @param {message} message
          * @param {object} buttons

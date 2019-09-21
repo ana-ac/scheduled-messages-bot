@@ -29,6 +29,8 @@ module.exports = (conf, helpers) =>  {
 
         /**
          * Load conf for application
+         * @function
+         * @name loadConf
          */
         loadconf() {
             /** @global */
@@ -43,6 +45,8 @@ module.exports = (conf, helpers) =>  {
 
         /**
          * Check if we have all content necessary to add a scheduled message
+         * @function
+         * @name areDataMessageCorrect
          * @param  {object} data
          * @returns {bool} we have all data?
          */
