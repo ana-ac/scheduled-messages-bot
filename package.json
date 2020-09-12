@@ -38,7 +38,7 @@
   "homepage": "https://github.com/ana-ac/scheduled-messages-bot#readme",
   "dependencies": {
     "dotenv-safe": "^8.1.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "telegraf": "^3.32.0",
     "telegraf-keyboard": "^1.1.2"
   },
